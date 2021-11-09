@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+	nginx:
+		image: nginx
+		container_name: nginx
+		ports:
+			- "443:443"
+		depends_on:
+			- wordpress
+		volumes:
+			- ./requirements/nginx/conf/test.php:/var/www/test.php
+			- ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
+		networks:
+			- bledda_network
+
+	wordpress:
+		image: wordpress
+		container_name: wordpress
+		expose:
+			- 9000
+		networks:
+			- bledda_network
+
+networks:
+	bledda_network:
+		driver: bridge
