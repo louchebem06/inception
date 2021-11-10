@@ -21,7 +21,7 @@ services:
         build: requirements/wordpress
         image: wordpress
         volumes:
-            #- ./requirements/wordpress/conf/www.conf:/etc/php/7.3/fpm/pool.d/www.conf
+            - ./requirements/wordpress/conf/www.conf:/etc/php/7.3/fpm/pool.d/www.conf
             - ./requirements/wordpress/website/:/var/www/wordpress
         networks:
             - bledda-network
