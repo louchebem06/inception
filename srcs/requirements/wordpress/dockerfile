@@ -35,4 +35,6 @@ COPY	tools/init.sh /init.sh
 
 EXPOSE	9000
 
-CMD		["./init.sh"]
+STOPSIGNAL SIGQUIT
+
+CMD		./init.sh; php-fpm8.0 -F

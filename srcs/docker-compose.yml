@@ -16,6 +16,8 @@ services:
         restart: always
 
     wordpress:
+        depends_on:
+            - mariadb
         container_name: wordpress
         build: requirements/wordpress
         image: wordpress
@@ -23,6 +25,20 @@ services:
             - "9000"
         volumes:
             - /home/bledda/data/wp-data:/var/www/wordpress
+        networks:
+            - bledda-network
+        restart: always
+    
+    mariadb:
+        container_name: mariadb
+        build: requirements/mariadb
+        image: mariadb
+        environments:
+          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+          - MYSQL_USER=${MYSQL_USER}
+          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        expose:
+            - "3306"
         networks:
             - bledda-network
         restart: always
