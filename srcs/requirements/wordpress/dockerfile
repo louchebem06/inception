@@ -17,22 +17,22 @@ RUN		wget -O \
 RUN		echo \
 			"deb https://packages.sury.org/php/ \
 			$(lsb_release -sc) main" \
-			|tee /etc/apt/sources.list.d/php.list
+			| tee /etc/apt/sources.list.d/php.list
 
 RUN		apt-get update -y
 
 RUN		apt-get install -y \
 			php8.0 \
-			php8.0-fpm
+			php8.0-fpm \
+			php8.0-mysqli
 
 RUN		wget \
-			https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz \
-			-P /var/www/wordpress/
-
-RUN		tar -xf wordpress-5.8.2-fr_FR.tar.gz
+			https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz -P \/
 
 COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
+COPY	tools/init.sh /init.sh
+
 EXPOSE	9000
 
-CMD		["/usr/sbin/php8.0-fpm", "-D", "FOREGROUND"]
+CMD		["./init.sh"]
