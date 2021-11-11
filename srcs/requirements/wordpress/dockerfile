@@ -1,9 +1,38 @@
 FROM	debian:buster
 
 RUN		apt-get update -y \
-			&& apt-get upgrade -y \
-			&& apt-get -y install php7.3 php7.3-fpm
+			&& apt-get upgrade -y
+
+RUN		apt-get install -y \
+			lsb-release \
+			apt-transport-https \
+			ca-certificates \
+			wget \
+			tar
+
+RUN		wget -O \
+			/etc/apt/trusted.gpg.d/php.gpg \
+			https://packages.sury.org/php/apt.gpg
+
+RUN		echo \
+			"deb https://packages.sury.org/php/ \
+			$(lsb_release -sc) main" \
+			|tee /etc/apt/sources.list.d/php.list
+
+RUN		apt-get update -y
+
+RUN		apt-get install -y \
+			php8.0 \
+			php8.0-fpm
+
+RUN		wget \
+			https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz \
+			-P /var/www/wordpress/
+
+RUN		tar -xf wordpress-5.8.2-fr_FR.tar.gz
+
+COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
 EXPOSE	9000
 
-CMD		service php7.3-fpm start && tail -f /dev/null
+CMD		["/usr/sbin/php8.0-fpm", "-D", "FOREGROUND"]
