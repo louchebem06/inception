@@ -31,6 +31,8 @@ RUN		wget \
 
 COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
+COPY	conf/wp-config.php /
+
 COPY	tools/init.sh /init.sh
 
 EXPOSE	9000
