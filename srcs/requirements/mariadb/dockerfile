@@ -16,4 +16,4 @@ COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
 EXPOSE 	3306
 
-CMD		service mysql start && tail -f /dev/null
+CMD		["mysqld"]
