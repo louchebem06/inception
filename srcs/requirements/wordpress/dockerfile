@@ -33,10 +33,20 @@ COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
 COPY	conf/wp-config.php /
 
-COPY	tools/init.sh /init.sh
+# COPY	tools/init.sh /init.sh
+
+VOLUME	/var/www/wordpress/
+
+RUN 	tar -xf /wordpress-5.8.2-fr_FR.tar.gz --directory /var/www/ \
+			&& rm -rf /wordpress-5.8.2-fr_FR.tar.gz \
+			&& mv /wp-config.php /var/www/wordpress \
+			&& chmod 644 /var/www/wordpress/wp-config.php \
+			&& service php8.0-fpm start \
+			&& service php8.0-fpm stop
 
 EXPOSE	9000
 
 STOPSIGNAL SIGQUIT
 
-CMD		./init.sh; php-fpm8.0 -F
+# CMD		./init.sh; php-fpm8.0 -F
+CMD		php-fpm8.0 -F
