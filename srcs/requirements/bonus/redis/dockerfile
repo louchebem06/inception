@@ -1,0 +1,19 @@
+FROM	debian:buster
+
+RUN		apt-get update -y \
+			&& apt-get upgrade -y
+
+RUN		apt-get install -y \
+			redis-server
+
+ARG		REDIS_PASSWORD
+
+COPY 	conf/redis.conf /etc/redis/redis.conf
+COPY 	tools/add_pass_redis.sh /etc/redis/
+WORKDIR /etc/redis
+RUN		./add_pass_redis.sh && rm -f add_pass_redis.sh
+RUN 	chmod 644 redis.conf
+
+EXPOSE	6379
+
+CMD		service redis-server start && tail -f
