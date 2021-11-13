@@ -27,6 +27,8 @@ RUN		apt-get install -y \
 
 COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
+RUN		mkdir -p /run/php
+
 ADD		https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz \
 			/var/www/
 
@@ -38,9 +40,6 @@ COPY	conf/wp-config.php /var/www/wordpress/wp-config.php
 
 WORKDIR /var/www/wordpress/
 RUN		chmod 644 wp-config.php
-
-RUN		service php8.0-fpm start \
-			&& service php8.0-fpm stop
 
 EXPOSE	9000
 
