@@ -5,14 +5,17 @@ services:
         depends_on:
             - wordpress
         container_name: nginx
-        build: requirements/nginx
+        build:
+            context:  requirements/nginx
+            args:
+                DOMAIN_NAME: ${DOMAIN_NAME}
         image: nginx
         env_file:
             - .env
         ports:
             - "443:443"
         volumes:
-            - /home/bledda/data/wp-data:/var/www/wordpress/
+            - wordpress:/var/www/wordpress/
         networks:
             - bledda-network
         restart: always
@@ -28,19 +31,26 @@ services:
         expose:
             - "9000"
         volumes:
-            - /home/bledda/data/wp-data:/var/www/wordpress
+            - wordpress:/var/www/wordpress
         networks:
             - bledda-network
         restart: always
-    
+
     mariadb:
         container_name: mariadb
-        build: requirements/mariadb
+        build:
+            context:  requirements/mariadb
+            args:
+                DB_WP: ${DB_WP}
+                MYSQL_USER: ${MYSQL_USER}
+                MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         image: mariadb
         env_file:
             - .env
         expose:
             - "3306"
+        volumes:
+            - mariadb:/var/lib/mysql/${DB_WP}
         networks:
             - bledda-network
         restart: always
@@ -49,3 +59,20 @@ networks:
     bledda-network:
         name: bledda-network
         driver: bridge
+
+volumes:
+    wordpress:
+        name: wordpress
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/wp-data
+
+    mariadb:
+        name: mariadb
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/db-data

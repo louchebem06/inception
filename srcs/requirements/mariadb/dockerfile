@@ -10,6 +10,10 @@ COPY	tools/setup.sh /
 
 COPY	conf/wordpress.sql /
 
+ARG		DB_WP
+ARG		MYSQL_USER
+ARG		MYSQL_PASSWORD
+
 RUN		./setup.sh && rm -f setup.sh
 
 COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/

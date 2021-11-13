@@ -7,8 +7,7 @@ RUN		apt-get install -y \
 			lsb-release \
 			apt-transport-https \
 			ca-certificates \
-			wget \
-			tar
+			wget
 
 RUN		wget -O \
 			/etc/apt/trusted.gpg.d/php.gpg \
@@ -26,27 +25,24 @@ RUN		apt-get install -y \
 			php8.0-fpm \
 			php8.0-mysqli
 
-RUN		wget \
-			https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz -P \/
-
 COPY	conf/www.conf /etc/php/8.0/fpm/pool.d/www.conf
 
-COPY	conf/wp-config.php /
+ADD		https://fr.wordpress.org/wordpress-5.8.2-fr_FR.tar.gz \
+			/var/www/
 
-# COPY	tools/init.sh /init.sh
+WORKDIR /var/www/
+RUN		tar -xzvf wordpress-5.8.2-fr_FR.tar.gz \
+			&& rm -f wordpress-5.8.2-fr_FR.tar.gz
 
-VOLUME	/var/www/wordpress/
+COPY	conf/wp-config.php /var/www/wordpress/wp-config.php
 
-RUN 	tar -xf /wordpress-5.8.2-fr_FR.tar.gz --directory /var/www/ \
-			&& rm -rf /wordpress-5.8.2-fr_FR.tar.gz \
-			&& mv /wp-config.php /var/www/wordpress \
-			&& chmod 644 /var/www/wordpress/wp-config.php \
-			&& service php8.0-fpm start \
+WORKDIR /var/www/wordpress/
+RUN		chmod 644 wp-config.php
+
+RUN		service php8.0-fpm start \
 			&& service php8.0-fpm stop
 
 EXPOSE	9000
 
-STOPSIGNAL SIGQUIT
-
-# CMD		./init.sh; php-fpm8.0 -F
-CMD		php-fpm8.0 -F
+ENTRYPOINT	["php-fpm8.0"]
+CMD			["-F"]
