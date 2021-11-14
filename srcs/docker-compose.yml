@@ -102,6 +102,18 @@ services:
             - bledda-network
         restart: always
 
+    adminer:
+        container_name: adminer
+        build: requirements/bonus/adminer
+        image: adminer
+        env_file:
+            - .env
+        ports:
+            - "8080:8080"
+        networks:
+            - bledda-network
+        restart: always
+
 networks:
     bledda-network:
         name: bledda-network

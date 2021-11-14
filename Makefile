@@ -30,6 +30,8 @@ rmi:
 		@docker rmi -f mariadb
 		@docker rmi -f redis
 		@docker rmi -f ftp
+		@docker rmi -f website
+		@docker rmi -f adminer
 .phony: rmi
 
 rmv:
@@ -70,6 +72,10 @@ cli-ftp:
 cli-website:
 		@docker exec -it website /bin/bash
 .phony: cli-website
+
+cli-adminer:
+		@docker exec -it adminer /bin/bash
+.phony: cli-adminer
 
 prune:	fclean
 		@docker system prune -a
