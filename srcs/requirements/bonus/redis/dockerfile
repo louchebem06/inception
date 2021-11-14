@@ -16,4 +16,4 @@ RUN 	chmod 644 redis.conf
 
 EXPOSE	6379
 
-CMD		service redis-server start && tail -f
+CMD		["redis-server"]

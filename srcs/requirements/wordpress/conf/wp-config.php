@@ -19,8 +19,9 @@ define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', '6379');
 define('WP_REDIS_PASSWORD', getenv('REDIS_PASSWORD', true));
 define('WP_CACHE_KEY_SALT', 'inception_' );
-
 define('WP_CACHE', true);
+
+define('FS_METHOD', 'direct');
 
 $table_prefix = 'wp_';
 

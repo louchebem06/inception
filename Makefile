@@ -1,48 +1,66 @@
-all:
-		mkdir -p /home/bledda/data/wp-data/
-		mkdir -p /home/bledda/data/db-data/
-		docker-compose -f srcs/docker-compose.yml up -d
+all:	build start
+.phony: all
 
-rebuild:
-		docker-compose -f srcs/docker-compose.yml up --build -d
+init:
+		@mkdir -p /home/bledda/data/wp-data/
+		@mkdir -p /home/bledda/data/db-data/
+		@export COMPOSE_DOCKER_CLI_BUILD=0
+.phony: init
+
+build:	init
+		@docker-compose -f srcs/docker-compose.yml build --parallel
+.phony: build		
+
+start:
+		@docker-compose -f srcs/docker-compose.yml up -d
+.phony: start
 
 stop:
-		docker stop wordpress
-		docker stop nginx
-		docker stop mariadb
-		docker stop redis
+		@docker-compose -f srcs/docker-compose.yml stop
+.phony: stop
 
-rm:
-		sudo rm -rf ~/data
-		docker rm wordpress
-		docker rm nginx
-		docker rm mariadb
-		docker rm redis
-		docker rmi wordpress
-		docker rmi nginx
-		docker rmi mariadb
-		docker rmi redis
-		docker volume rm wordpress
-		docker volume rm mariadb
+down:
+		@docker-compose -f srcs/docker-compose.yml down
+.phony: down
 
-fclean:
-		sudo rm -rf ~/data
-		docker system prune -a
-		docker network prune
-		docker volume prune
+rmi:
+		@docker rmi -f wordpress
+		@docker rmi -f nginx
+		@docker rmi -f mariadb
+		@docker rmi -f redis
+.phony: rmi
 
-cli-nginx:
-		docker exec -it nginx /bin/bash
+rmv:
+		@docker volume rm -f wordpress
+		@docker volume rm -f mariadb
+.phony: rmv
 
-cli-wordpress:
-		docker exec -it wordpress /bin/bash
+rmf:
+		@sudo rm -rf ~/data
+.phony: rmf
 
-cli-mariadb:
-		docker exec -it mariadb /bin/bash
-
-cli-redis:
-		docker exec -it redis /bin/bash
+fclean:	down rmi rmv rmf
+.phony: fclean
 
 re:		fclean all
+.phony: re
 
-reset:	stop rm all
+cli-nginx:
+		@docker exec -it nginx /bin/bash
+.phony: cli-nginx
+
+cli-wordpress:
+		@docker exec -it wordpress /bin/bash
+.phony: cli-wordpress
+
+cli-mariadb:
+		@docker exec -it mariadb /bin/bash
+.phony: cli-mariadb
+
+cli-redis:
+		@docker exec -it redis /bin/bash
+.phony: cli-redis
+
+prune:	fclean
+		@docker system prune -a
+.phony: prune
