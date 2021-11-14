@@ -37,6 +37,7 @@ rmi:
 rmv:
 		@docker volume rm -f wordpress
 		@docker volume rm -f mariadb
+		@docker volume rm -f website
 .phony: rmv
 
 rmf:

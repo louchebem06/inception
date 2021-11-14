@@ -72,8 +72,6 @@ services:
         restart: always
 
     ftp:
-        depends_on:
-            - wordpress
         container_name: ftp
         build: requirements/bonus/ftp
         image: ftp
