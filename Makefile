@@ -87,6 +87,16 @@ cli-plex:
 		@docker exec -it plex /bin/bash
 .phony: cli-plex
 
+rm-plex:stop
+		@docker rm -f plex
+		@docker rmi -f plex
+.phony: rm-plex
+
+rm-ftp: stop
+		@docker rm -f ftp
+		@docker rmi -f ftp
+.phony: rm-ftp
+
 prune:	fclean
 		@docker system prune -a
 .phony: prune
