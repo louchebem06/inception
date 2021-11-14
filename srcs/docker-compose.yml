@@ -71,6 +71,37 @@ services:
             - bledda-network
         restart: always
 
+    ftp:
+        depends_on:
+            - wordpress
+        container_name: ftp
+        build: requirements/bonus/ftp
+        image: ftp
+        ports:
+            - "21:21"
+        volumes:
+            - wordpress:/var/www/wordpress/
+        networks:
+            - bledda-network
+        restart: always
+
+    website:
+        container_name: website
+        build:
+            context:  requirements/bonus/website
+            args:
+                DOMAIN_NAME: ${DOMAIN_NAME}
+        image: website
+        env_file:
+            - .env
+        ports:
+            - "80:80"
+        volumes:
+            - website:/var/www/website
+        networks:
+            - bledda-network
+        restart: always
+
 networks:
     bledda-network:
         name: bledda-network
@@ -92,3 +123,11 @@ volumes:
             type: none  
             o: bind
             device: /home/bledda/data/db-data
+    
+    website:
+        name: website
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/website-data

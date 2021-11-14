@@ -55,7 +55,4 @@ COPY	tools/plugin.sh /plugin.sh
 
 EXPOSE	9000
 
-# ENTRYPOINT	["/plugin.sh", "&&"]
-# CMD			["php-fpm8.0", "-F"]
-
 CMD				/plugin.sh && php-fpm8.0 -F

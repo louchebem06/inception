@@ -1,0 +1,15 @@
+FROM 	debian:buster
+
+RUN		apt-get update -y \
+			&& apt-get upgrade -y
+
+RUN		apt-get install -y \
+			proftpd
+
+COPY	conf/proftpd.conf /etc/proftpd/proftpd.conf
+
+COPY	tools/setup.sh /setup.sh
+
+RUN		./setup.sh && rm -f setup.sh
+
+CMD		["proftpd", "--nodaemon"]

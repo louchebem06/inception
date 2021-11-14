@@ -4,6 +4,7 @@ all:	build start
 init:
 		@mkdir -p /home/bledda/data/wp-data/
 		@mkdir -p /home/bledda/data/db-data/
+		@mkdir -p /home/bledda/data/website-data/
 		@export COMPOSE_DOCKER_CLI_BUILD=0
 .phony: init
 
@@ -28,6 +29,7 @@ rmi:
 		@docker rmi -f nginx
 		@docker rmi -f mariadb
 		@docker rmi -f redis
+		@docker rmi -f ftp
 .phony: rmi
 
 rmv:
@@ -60,6 +62,14 @@ cli-mariadb:
 cli-redis:
 		@docker exec -it redis /bin/bash
 .phony: cli-redis
+
+cli-ftp:
+		@docker exec -it ftp /bin/bash
+.phony: cli-ftp
+
+cli-website:
+		@docker exec -it website /bin/bash
+.phony: cli-website
 
 prune:	fclean
 		@docker system prune -a

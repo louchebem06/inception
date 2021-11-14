@@ -9,20 +9,13 @@ RUN 	apt-get install -y \
 			nginx \
 			openssl
 
-# RUN		mkdir -p /etc/ssl/private/
-# RUN		mkdir -p /etc/ssl/public/
-
-# RUN		openssl \
-# 			req -x509 -nodes -days 365 -newkey rsa:2048 \
-# 			-keyout /etc/ssl/private/${DOMAIN_NAME}.key \
-# 			-out /etc/ssl/public/${DOMAIN_NAME}.crt \
-# 			-subj \
-# 			"/C=FR/ST=PACA/L=Nice/O=42 Nice/CN=${DOMAIN_NAME}"
+RUN		mkdir -p /etc/nginx/ssl/public/
+RUN		mkdir -p /etc/nginx/ssl/private/
 
 RUN		openssl \
 			req -x509 -nodes -days 365 -newkey rsa:2048 \
-			-keyout /etc/nginx/conf.d/local.key \
-			-out /etc/nginx/conf.d/local.crt \
+			-keyout /etc/nginx/ssl/private/wordpress.key \
+			-out /etc/nginx/ssl/public/wordpress.crt \
 			-subj \
 			"/C=FR/ST=PACA/L=Nice/O=42 Nice/CN=${DOMAIN_NAME}"
 

@@ -1,0 +1,20 @@
+FROM 	debian:buster
+
+ARG		DOMAIN_NAME
+
+RUN		apt-get update -y \
+			&& apt-get upgrade -y
+
+RUN 	apt-get install -y \
+			nginx \
+			git
+
+COPY	conf/default.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /var/www/
+RUN		git clone \
+			https://github.com/louchebem06/CV-Website-42Project.git \
+			website
+
+ENTRYPOINT	["nginx"]
+CMD 		["-g", "daemon off;"]
