@@ -5,6 +5,8 @@ init:
 		@mkdir -p /home/bledda/data/wp-data/
 		@mkdir -p /home/bledda/data/db-data/
 		@mkdir -p /home/bledda/data/website-data/
+		@mkdir -p /home/bledda/data/plex-data/config
+		@mkdir -p /home/bledda/data/plex-data/media
 		@export COMPOSE_DOCKER_CLI_BUILD=0
 .phony: init
 
@@ -32,12 +34,15 @@ rmi:
 		@docker rmi -f ftp
 		@docker rmi -f website
 		@docker rmi -f adminer
+		@docker rmi -f plex
 .phony: rmi
 
 rmv:
 		@docker volume rm -f wordpress
 		@docker volume rm -f mariadb
 		@docker volume rm -f website
+		@docker volume rm -f plex-config
+		@docker volume rm -f plex-media
 .phony: rmv
 
 rmf:
@@ -77,6 +82,10 @@ cli-website:
 cli-adminer:
 		@docker exec -it adminer /bin/bash
 .phony: cli-adminer
+
+cli-plex:
+		@docker exec -it plex /bin/bash
+.phony: cli-plex
 
 prune:	fclean
 		@docker system prune -a

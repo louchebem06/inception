@@ -115,6 +115,19 @@ services:
             - bledda-network
         restart: always
 
+    plex:
+        container_name: plex
+        build: requirements/bonus/plex
+        image: plex
+        ports:
+            - "32400:32400"
+        volumes:
+            - plex-config:/config/  
+            - plex-media:/media/
+        networks:
+            - bledda-network
+        restart: always
+
 networks:
     bledda-network:
         name: bledda-network
@@ -144,3 +157,19 @@ volumes:
             type: none  
             o: bind
             device: /home/bledda/data/website-data
+
+    plex-config:
+        name: plex-config
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/plex-data/config
+    
+    plex-media:
+        name: plex-media
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/plex-data/media
