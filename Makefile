@@ -97,6 +97,36 @@ rm-ftp: stop
 		@docker rmi -f ftp
 .phony: rm-ftp
 
+rm-nginx: stop
+		@docker rm -f nginx
+		@docker rmi -f nginx
+.phony: rm-nginx
+
+rm-adminer: stop
+		@docker rm -f adminer
+		@docker rmi -f adminer
+.phony: rm-adminer
+
+rm-website: stop
+		@docker rm -f website
+		@docker rmi -f website
+.phony: rm-website
+
+rm-redis: stop
+		@docker rm -f redis
+		@docker rmi -f redis
+.phony: rm-redis
+
+rm-mariadb: stop
+		@docker rm -f mariadb
+		@docker rmi -f mariadb
+.phony: rm-mariadb
+
+rm-wordpress: stop
+		@docker rm -f wordpress
+		@docker rmi -f wordpress
+.phony: rm-wordpress
+
 prune:	fclean
 		@docker system prune -a
 .phony: prune

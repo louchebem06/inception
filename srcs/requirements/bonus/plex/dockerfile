@@ -12,6 +12,8 @@ RUN		wget \
 
 RUN		dpkg -i plexmediaserver_1.16.5.1488-deeb86e7f_amd64.deb
 
-CMD		/usr/lib/plexmediaserver/Plex\ Media\ Server
+# CMD		/usr/lib/plexmediaserver/Plex\ Media\ Server
 
-# CMD [ "tail", "-f" ]
+EXPOSE 32400
+
+CMD [ "tail", "-f" ]

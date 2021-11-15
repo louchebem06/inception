@@ -92,8 +92,8 @@ services:
         image: website
         env_file:
             - .env
-        ports:
-            - "8888:8888"
+        expose:
+            - "8080"
         volumes:
             - website:/var/www/website
         networks:
@@ -109,8 +109,8 @@ services:
         image: adminer
         env_file:
             - .env
-        ports:
-            - "8080:8080"
+        expose:
+            - "8080"
         networks:
             - bledda-network
         restart: always
@@ -119,8 +119,8 @@ services:
         container_name: plex
         build: requirements/bonus/plex
         image: plex
-        ports:
-            - "32400:32400"
+        expose:
+            - "32400"
         volumes:
             - plex-config:/config/  
             - plex-media:/media/
