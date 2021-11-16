@@ -6,10 +6,17 @@ RUN		apt-get update -y \
 RUN		apt-get install -y \
 			proftpd
 
+ARG		FTP_USER
+ARG		FTP_PASSWORD
+
+RUN		addgroup ftpgroup
+RUN		useradd ${FTP_USER} \
+			-s /bin/false \
+			-d /var/www/wordpress
+RUN		echo "${FTP_USER}:${FTP_PASSWORD}" | chpasswd
+RUN		usermod -g www-data ${FTP_USER}
+RUN		usermod -aG ftpgroup ${FTP_USER}
+
 COPY	conf/proftpd.conf /etc/proftpd/proftpd.conf
-
-COPY	tools/setup.sh /setup.sh
-
-RUN		./setup.sh && rm -f setup.sh
 
 CMD		["proftpd", "--nodaemon"]

@@ -9,15 +9,14 @@ RUN		apt-get install -y \
 ARG		REDIS_PASSWORD
 
 COPY 	conf/redis.conf /etc/redis/redis.conf
-COPY 	tools/add_pass_redis.sh /etc/redis/
 WORKDIR /etc/redis
-RUN		./add_pass_redis.sh && rm -f add_pass_redis.sh
+RUN		echo requirepass $REDIS_PASSWORD >> /etc/redis/redis.conf
 RUN 	chmod 644 redis.conf
-
-EXPOSE	6379
 
 RUN		chown -R redis:redis /var/log/redis
 RUN		chmod -R 770 /var/log/redis
+
+EXPOSE	6379
 
 ENTRYPOINT	["redis-server"]
 CMD 		["redis.conf"]

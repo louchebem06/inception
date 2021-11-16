@@ -17,7 +17,7 @@ RUN		openssl \
 			-keyout /etc/nginx/ssl/private/wordpress.key \
 			-out /etc/nginx/ssl/public/wordpress.crt \
 			-subj \
-			"/C=FR/ST=PACA/L=Nice/O=42 Nice/CN=${DOMAIN_NAME}"
+			"/C=FR/ST=PACA/L=Nice/O=42 Nice/CN=bledda.42.fr"
 
 RUN		openssl \
 			req -x509 -nodes -days 365 -newkey rsa:2048 \

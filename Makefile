@@ -4,8 +4,8 @@ all:	build start
 init:
 		@mkdir -p /home/bledda/data/wp-data/
 		@mkdir -p /home/bledda/data/db-data/
-		@mkdir -p /home/bledda/data/website-data/
 		@mkdir -p /home/bledda/data/git-data/
+		@mkdir -p /home/bledda/data/redis-data/
 		@rm -rf /home/bledda/.ssh/known_hosts
 .PHONY: init
 
@@ -41,6 +41,7 @@ rmv:
 		@docker volume rm -f mariadb
 		@docker volume rm -f website
 		@docker volume rm -f git
+		@docker volume rm -f redis
 .PHONY: rmv
 
 rmf:
@@ -128,3 +129,7 @@ rm-wordpress: stop
 prune:	fclean
 		@docker system prune -a
 .PHONY: prune
+
+ip:
+		@/sbin/ip -4 addr | grep "inet"
+.PHONY: ip
