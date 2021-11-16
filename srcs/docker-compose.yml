@@ -121,6 +121,8 @@ services:
         image: git
         ports:
             - "22:22"
+        volumes:
+            - git:/home/
         networks:
             - bledda-network
         restart: always
@@ -154,3 +156,11 @@ volumes:
             type: none  
             o: bind
             device: /home/bledda/data/website-data
+
+    git:
+        name: git
+        driver: local
+        driver_opts:
+            type: none  
+            o: bind
+            device: /home/bledda/data/git-data

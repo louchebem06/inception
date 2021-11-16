@@ -5,13 +5,13 @@ init:
 		@mkdir -p /home/bledda/data/wp-data/
 		@mkdir -p /home/bledda/data/db-data/
 		@mkdir -p /home/bledda/data/website-data/
+		@mkdir -p /home/bledda/data/git-data/
 		@rm -rf /home/bledda/.ssh/known_hosts
-		@export COMPOSE_DOCKER_CLI_BUILD=0
 .PHONY: init
 
 build:	init
-		@docker-compose -f srcs/docker-compose.yml build --parallel
-.PHONY: build		
+		@docker-compose -f srcs/docker-compose.yml build
+.PHONY: build
 
 start:
 		@docker-compose -f srcs/docker-compose.yml up -d
@@ -40,6 +40,7 @@ rmv:
 		@docker volume rm -f wordpress
 		@docker volume rm -f mariadb
 		@docker volume rm -f website
+		@docker volume rm -f git
 .PHONY: rmv
 
 rmf:
