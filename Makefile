@@ -1,30 +1,29 @@
 all:	build start
-.phony: all
+.PHONY: all
 
 init:
 		@mkdir -p /home/bledda/data/wp-data/
 		@mkdir -p /home/bledda/data/db-data/
 		@mkdir -p /home/bledda/data/website-data/
-		@mkdir -p /home/bledda/data/plex-data/config
-		@mkdir -p /home/bledda/data/plex-data/media
+		@rm -rf /home/bledda/.ssh/known_hosts
 		@export COMPOSE_DOCKER_CLI_BUILD=0
-.phony: init
+.PHONY: init
 
 build:	init
 		@docker-compose -f srcs/docker-compose.yml build --parallel
-.phony: build		
+.PHONY: build		
 
 start:
 		@docker-compose -f srcs/docker-compose.yml up -d
-.phony: start
+.PHONY: start
 
 stop:
 		@docker-compose -f srcs/docker-compose.yml stop
-.phony: stop
+.PHONY: stop
 
 down:
 		@docker-compose -f srcs/docker-compose.yml down
-.phony: down
+.PHONY: down
 
 rmi:
 		@docker rmi -f wordpress
@@ -34,99 +33,97 @@ rmi:
 		@docker rmi -f ftp
 		@docker rmi -f website
 		@docker rmi -f adminer
-		@docker rmi -f plex
-.phony: rmi
+		@docker rmi -f git
+.PHONY: rmi
 
 rmv:
 		@docker volume rm -f wordpress
 		@docker volume rm -f mariadb
 		@docker volume rm -f website
-		@docker volume rm -f plex-config
-		@docker volume rm -f plex-media
-.phony: rmv
+.PHONY: rmv
 
 rmf:
 		@sudo rm -rf ~/data
-.phony: rmf
+.PHONY: rmf
 
 fclean:	down rmi rmv rmf
-.phony: fclean
+.PHONY: fclean
 
 re:		fclean all
-.phony: re
+.PHONY: re
 
 cli-nginx:
 		@docker exec -it nginx /bin/bash
-.phony: cli-nginx
+.PHONY: cli-nginx
 
 cli-wordpress:
 		@docker exec -it wordpress /bin/bash
-.phony: cli-wordpress
+.PHONY: cli-wordpress
 
 cli-mariadb:
 		@docker exec -it mariadb /bin/bash
-.phony: cli-mariadb
+.PHONY: cli-mariadb
 
 cli-redis:
 		@docker exec -it redis /bin/bash
-.phony: cli-redis
+.PHONY: cli-redis
 
 cli-ftp:
 		@docker exec -it ftp /bin/bash
-.phony: cli-ftp
+.PHONY: cli-ftp
 
 cli-website:
 		@docker exec -it website /bin/bash
-.phony: cli-website
+.PHONY: cli-website
 
 cli-adminer:
 		@docker exec -it adminer /bin/bash
-.phony: cli-adminer
+.PHONY: cli-adminer
 
-cli-plex:
-		@docker exec -it plex /bin/bash
-.phony: cli-plex
+cli-git:
+		@docker exec -it git /bin/bash
+.PHONY: cli-git
 
-rm-plex:stop
-		@docker rm -f plex
-		@docker rmi -f plex
-.phony: rm-plex
+rm-git: stop
+		@docker rm -f git
+		@docker rmi -f git
+.PHONY: rm-git
 
 rm-ftp: stop
 		@docker rm -f ftp
 		@docker rmi -f ftp
-.phony: rm-ftp
+.PHONY: rm-ftp
 
 rm-nginx: stop
 		@docker rm -f nginx
 		@docker rmi -f nginx
-.phony: rm-nginx
+.PHONY: rm-nginx
 
 rm-adminer: stop
 		@docker rm -f adminer
 		@docker rmi -f adminer
-.phony: rm-adminer
+.PHONY: rm-adminer
 
 rm-website: stop
 		@docker rm -f website
 		@docker rmi -f website
-.phony: rm-website
+.PHONY: rm-website
 
 rm-redis: stop
 		@docker rm -f redis
 		@docker rmi -f redis
-.phony: rm-redis
+.PHONY: rm-redis
 
 rm-mariadb: stop
 		@docker rm -f mariadb
 		@docker rmi -f mariadb
-.phony: rm-mariadb
+.PHONY: rm-mariadb
 
 rm-wordpress: stop
 		@docker rm -f wordpress
 		@docker rmi -f wordpress
-.phony: rm-wordpress
+.PHONY: rm-wordpress
 
 prune:	fclean
 		@docker system prune -a
-.phony: prune
+.PHONY: prune

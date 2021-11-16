@@ -16,4 +16,8 @@ RUN 	chmod 644 redis.conf
 
 EXPOSE	6379
 
-CMD		["redis-server"]
+RUN		chown -R redis:redis /var/log/redis
+RUN		chmod -R 770 /var/log/redis
+
+ENTRYPOINT	["redis-server"]
+CMD 		["redis.conf"]

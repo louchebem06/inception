@@ -28,13 +28,6 @@ RUN		openssl \
 
 RUN		openssl \
 			req -x509 -nodes -days 365 -newkey rsa:2048 \
-			-keyout /etc/nginx/ssl/private/plex.key \
-			-out /etc/nginx/ssl/public/plex.crt \
-			-subj \
-			"/C=FR/ST=PACA/L=Nice/O=42 Nice/CN=plex.bledda.42.fr"
-
-RUN		openssl \
-			req -x509 -nodes -days 365 -newkey rsa:2048 \
 			-keyout /etc/nginx/ssl/private/adminer.key \
 			-out /etc/nginx/ssl/public/adminer.crt \
 			-subj \
@@ -45,7 +38,6 @@ RUN		rm -f /etc/nginx/sites-enabled/default
 
 COPY	conf/wordpress.conf /etc/nginx/conf.d/wordpress.conf
 COPY	conf/website.conf /etc/nginx/sites-enabled/website
-COPY	conf/plex.conf /etc/nginx/sites-enabled/plex
 COPY	conf/adminer.conf /etc/nginx/sites-enabled/adminer
 
 COPY	conf/nginx.conf /etc/nginx/nginx.conf

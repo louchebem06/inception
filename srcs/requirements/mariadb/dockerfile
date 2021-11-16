@@ -10,9 +10,9 @@ RUN		apt-get update -y \
 RUN 	apt-get install -y \
 			mariadb-server
 
-COPY	tools/setup.sh /
-
 COPY	conf/wordpress.sql /
+
+COPY	tools/setup.sh /
 
 RUN		./setup.sh && rm -f setup.sh
 

@@ -41,6 +41,8 @@ RUN		chmod 644 adminer-4.8.1.php
 
 RUN		rm -rf html
 
+RUN		mkdir -p /run/php
+
 EXPOSE	8080
 
-CMD 	service nginx start && service php8.0-fpm start && tail -f
+CMD 	service nginx start; php-fpm8.0 -F
